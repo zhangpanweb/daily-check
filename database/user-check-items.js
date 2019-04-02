@@ -5,10 +5,10 @@ async function create (knex) {
     table.increments();
     table.integer('owner_id').unsigned();
     table.integer('check_item_id').unsigned();
-    table.timestamps();
+    table.timestamps(false, true);
 
-    table.foreign('owner_id').references('user.id');
-    table.foreign('check_item_id').references('check_item.id');
+    table.index('owner_id');
+    table.index('check_item_id');
   });
 };
 

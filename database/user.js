@@ -4,7 +4,7 @@ async function create (knex) {
   await knex.schema.createTable(name, (table) => {
     table.increments();
     table.string('name');
-    table.timestamps();
+    table.timestamps(false, true);
 
     table.unique('name', 'name');
   });

@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const testRotuer = require('./test');
 const userRouter = require('./user');
+const checkItemRouter = require('./check-item');
 
 router.use('/api',
-  testRotuer,
-  userRouter
+  userRouter,
+  checkItemRouter
 );
 
 module.exports = router;

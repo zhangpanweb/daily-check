@@ -7,9 +7,9 @@ async function create (knex) {
     table.string('name');
     table.string('description');
     table.boolean('journal_must');
-    table.timestamps();
+    table.timestamps(false, true);
 
-    table.foreign('owner_id').references('user.id');
+    table.index('owner_id');
   });
 };
 

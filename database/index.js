@@ -1,5 +1,7 @@
 const path = require('path');
 const fs = require('fs');
+const convertToCamel = require('../utils/convertToCamel');
+const convertToSnakeCase = require('../utils/convertToSnakeCase');
 
 const knex = require('knex')({
   client: 'mysql',
@@ -10,33 +12,9 @@ const knex = require('knex')({
     database: 'daily_check_db'
   },
   debug: true,
-  postProcessResponse: (result, queryContext) => {
-    if (Array.isArray(result)) {
-      return result.map(row => convertToCamel(row));
-    } else {
-      return convertToCamel(result);
-    }
-  }
+  postProcessResponse: (result, queryContext) => convertToCamel(result),
+  wrapIdentifier: (value, origImpl, queryContext) => origImpl(convertToSnakeCase(value))
 });
-
-function convertToCamel (row) {
-  const result = {};
-  const keys = Object.keys(row);
-
-  keys.forEach(key => {
-    let finalKey = key;
-    while (finalKey.indexOf('_') !== -1) {
-      const index = key.indexOf('_');
-      const dropSnakeKey = key.replace('_', '');
-      const letter = dropSnakeKey[index];
-      finalKey = dropSnakeKey.replace(letter, letter.toUpperCase());
-    }
-
-    result[finalKey] = row[key];
-  });
-
-  return result;
-}
 
 establishDb();
 

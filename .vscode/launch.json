@@ -6,9 +6,15 @@
   "configurations": [
     {
       "type": "node",
+      "name": "lauch",
       "request": "launch",
-      "name": "Launch Program",
       "program": "${workspaceFolder}/app.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "test js",
+      "program": "${workspaceFolder}/utils/convertToSnakeCase.js"
     }
   ]
 }
