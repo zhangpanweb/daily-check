@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Calendar from 'react-calendar';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import axios from 'axios';
+import moment from 'moment';
 
 import './style.less';
 
@@ -24,6 +26,11 @@ const recordData = {
 const Record = ({ history }) => {
   const defaultDate = new Date();
   const [date, setDate] = useState(defaultDate);
+  const [records, setRecords] = useState({});
+
+  useEffect(() => {
+    _getRecords();
+  }, []);
 
   const changeDate = (date) => {
     console.log(date);
@@ -34,6 +41,11 @@ const Record = ({ history }) => {
     history.push('/record/detail', {
       date
     });
+  };
+
+  const _getRecords = async () => {
+    const res = await axios.get('/api/check_record/month');
+    setRecords(res.data);
   };
 
   return (
@@ -49,7 +61,7 @@ const Record = ({ history }) => {
         />
 
         <div className="record-area" onClick={clickRecord}>
-          <RecordPreview recordData={recordData}/>
+          <RecordPreview recordData={records[moment(date).format('YYYY-MM-DD')]}/>
         </div>
 
       </div>

@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
+const _ = require('lodash');
 
 const knex = require('../database');
 
 router.get('/check_record/today', async (req, res) => {
   try {
     const userId = 1;
-    const records = await knex('check_record').select().where({
+    const records = await knex('checkRecord').select().where({
       ownerId: userId,
       date: moment().format('YYYY-MM-DD')
     });
 
-    const checkItems = await knex('check_item').select().where({
+    const checkItems = await knex('checkItem').select().where({
       ownerId: userId
     });
 
@@ -32,12 +33,40 @@ router.post('/check_record', async (req, res) => {
     const userId = 1;
     const { checkItemId } = req.body;
 
-    await knex('check_record').insert({
+    await knex('checkRecord').insert({
       ownerId: userId,
       checkItemId,
       date: moment().format('YYYY-MM-DD')
     });
     res.status(200).send();
+  } catch (e) {
+    console.log(e);
+    res.status(502).send(e.message);
+  }
+});
+
+router.get('/check_record/month', async (req, res) => {
+  try {
+    const userId = 1;
+    const month = req.query.month || new Date();
+
+    const firstDayOfMonth = moment(month).startOf('month').format('YYYY-MM-DD');
+    const lastDayOfMonth = moment(month).endOf('month').format('YYYY-MM-DD');
+
+    let records = await knex('checkRecord').select()
+      .join('checkItem', 'checkRecord.checkItemId', '=', 'checkItem.id')
+      .where('date', '>=', firstDayOfMonth)
+      .andWhere('date', '<=', lastDayOfMonth)
+      .andWhere({ 'checkRecord.ownerId': userId });
+
+    records = records.map(record => {
+      record.date = moment(record.date).format('YYYY-MM-DD');
+      return _.pick(record, ['checkItemId', 'date', 'name']);
+    });
+
+    const groupedRecords = _.groupBy(records, (record) => record.date);
+
+    res.status(200).json(groupedRecords);
   } catch (e) {
     console.log(e);
     res.status(502).send(e.message);
