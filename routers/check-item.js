@@ -4,13 +4,11 @@ const router = express.Router();
 const knex = require('../database');
 
 router.post('/check_item', async (req, res) => {
-  await knex('check_item').insert({
-    ownerId: 1,
-    name: 'push-up',
-    description: 'a',
-    journalMust: true
-  });
-  res.status(200).send('success');
+  const params = req.body;
+  const result = await knex('check_item').insert(params);
+  const id = result[0];
+  const checkItem = await knex('check_item').select().where({ id });
+  res.status(200).json(checkItem[0]);
 });
 
 module.exports = router;

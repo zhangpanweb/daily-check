@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import './style.less';
 
@@ -10,6 +11,8 @@ import BottomButton from '../../../components/bottom-button';
 
 const AddCheck = ({ history }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
   const handleGoBack = () => {
     history.go(-1);
   };
@@ -19,19 +22,46 @@ const AddCheck = ({ history }) => {
   };
 
   const handleNoJournal = () => {
+    _addCheckItem();
     setModalVisible(false);
   };
 
   const handleOpenJournal = () => {
+    _addCheckItem();
     setModalVisible(false);
+  };
+
+  const _addCheckItem = async () => {
+    try {
+      await axios.post(`/api/check_item`, {
+        name,
+        description,
+        journalMust: true
+      });
+      history.go(-1);
+    } catch (e) {
+
+    }
   };
 
   return (
     <div className="add-check-container">
 
       <Header title="添加打卡项" leftIcon="<" onClickLeft={handleGoBack}/>
-      <input className="name" placeholder="请输入打卡名称"/>
-      <textarea className="description" placeholder="请输入打卡描述"/>
+      <input
+        className="name"
+        placeholder="请输入打卡名称"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+
+      <textarea
+        className="description"
+        placeholder="请输入打卡描述"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+      />
+
       <BottomButton
         text="确定"
         onClick={handleAdd}
