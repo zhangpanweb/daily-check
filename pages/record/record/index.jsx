@@ -33,7 +33,6 @@ const Record = ({ history }) => {
   }, []);
 
   const changeDate = (date) => {
-    console.log(date);
     setDate(date);
   };
 

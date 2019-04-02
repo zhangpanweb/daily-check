@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-// import moment from 'moment';
+import axios from 'axios';
+import moment from 'moment';
 
 import './style.less';
 
@@ -29,22 +30,35 @@ const data = {
 };
 
 const RecordDetail = ({ history, location }) => {
+  const [records, setRecords] = useState([]);
   const date = location.state.date;
+
+  useEffect(() => {
+    _getRecords();
+  }, []);
 
   const handleGoBack = () => {
     history.go(-1);
+  };
+
+  const _getRecords = async () => {
+    const res = await axios.get('/api/check_record/date', {
+      params: { date }
+    });
+    const recordsWithJournal = res.data.filter(record => record.journal);
+    setRecords(recordsWithJournal);
   };
 
   return (
     <div className="date-record-container">
       <Header title="打卡详情" leftIcon="<" onClickLeft={handleGoBack}/>
       <div className="header">
-        {/* <span>{moment(date).format('YYYY-MM-DD')}</span> */}
+        <span>{moment(date).format('YYYY-MM-DD')}</span>
         <span className="count">{data.count}个</span>
       </div>
       <div className="journals">
-        {data.journals.map(journal => {
-          return <Journal key={journal.id} content={journal.content} name={journal.checkItem.name}/>;
+        {records.map(record => {
+          return <Journal key={record.id} content={record.journal} name={record.name}/>;
         })}
       </div>
     </div>

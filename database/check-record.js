@@ -6,7 +6,7 @@ async function create (knex) {
     table.integer('owner_id').unsigned();
     table.integer('check_item_id').unsigned();
     table.date('date');
-    table.boolean('journal');
+    table.string('journal');
     table.timestamps(false, true);
 
     table.index('owner_id');

@@ -4,11 +4,8 @@ import PropTypes from 'prop-types';
 
 import Record from './record';
 import RecordDetail from './record-detail';
-// import AddCheck from '../add-check';
-// import Login from '../login';
 
 const Router = ({ match }) => {
-  console.log('match', match);
   return (
     <Switch>
       <Route exact path={`${match.path}`} component={Record}/>

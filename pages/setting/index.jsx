@@ -7,7 +7,6 @@ import Login from './login';
 import Setting from './setting';
 
 const Router = ({ match }) => {
-  console.log('match', match);
   return (
     <Switch>
       <Route exact path={`${match.path}`} component={Setting}/>

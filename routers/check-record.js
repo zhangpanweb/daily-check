@@ -55,8 +55,8 @@ router.get('/check_record/month', async (req, res) => {
 
     let records = await knex('checkRecord').select()
       .join('checkItem', 'checkRecord.checkItemId', '=', 'checkItem.id')
-      .where('date', '>=', firstDayOfMonth)
-      .andWhere('date', '<=', lastDayOfMonth)
+      .where('checkRecord.date', '>=', firstDayOfMonth)
+      .andWhere('checkRecord.date', '<=', lastDayOfMonth)
       .andWhere({ 'checkRecord.ownerId': userId });
 
     records = records.map(record => {
@@ -67,6 +67,23 @@ router.get('/check_record/month', async (req, res) => {
     const groupedRecords = _.groupBy(records, (record) => record.date);
 
     res.status(200).json(groupedRecords);
+  } catch (e) {
+    console.log(e);
+    res.status(502).send(e.message);
+  }
+});
+
+router.get('/check_record/date', async (req, res) => {
+  try {
+    const userId = 1;
+    const date = req.query.date || new Date();
+
+    const records = await knex('checkRecord').select()
+      .join('checkItem', 'checkRecord.checkItemId', '=', 'checkItem.id')
+      .where('checkRecord.date', moment(date).format('YYYY-MM-DD'))
+      .andWhere('checkRecord.ownerId', userId);
+
+    res.status(200).json(records);
   } catch (e) {
     console.log(e);
     res.status(502).send(e.message);

@@ -6,7 +6,6 @@ import './style.less';
 const RecordPreview = ({ recordData }) => {
   if (!recordData) return null;
 
-  console.log('recordData', recordData);
   const itemNames = recordData.map(record => record.name).join(',');
 
   return (

@@ -39,7 +39,6 @@ const Home = () => {
 
   const _getTodayCheckItems = async () => {
     const res = await axios.get('/api/check_record/today');
-    console.log('todayCheck', res);
     setTodayCheckItems(res.data);
   };
 
