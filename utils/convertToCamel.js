@@ -6,8 +6,8 @@ function convertObjectToCamel (row) {
   keys.forEach(key => {
     let finalKey = key;
     while (finalKey.indexOf('_') !== -1) {
-      const index = key.indexOf('_');
-      const dropSnakeKey = key.replace('_', '');
+      const index = finalKey.indexOf('_');
+      const dropSnakeKey = finalKey.replace('_', '');
       const letter = dropSnakeKey[index];
       finalKey = dropSnakeKey.replace(letter, letter.toUpperCase());
     }

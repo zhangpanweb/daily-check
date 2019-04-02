@@ -4,7 +4,7 @@
   "description": "A react project template containing the common configures",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon app.js & npm run dev",
     "dev": "webpack-dev-server --env.ENV=development",
     "build": "webpack --env.ENV=production",
     "lint": "eslint --ext .js,.jsx ./",

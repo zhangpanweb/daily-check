@@ -1,4 +1,5 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
 
 import './style.less';
 
@@ -7,26 +8,17 @@ import Habit from './habit';
 import ConfirmModal from '../../components/confirm-modal';
 import NavTab from '../../components/nav-tab';
 
-const todayHabitData = {
-  data: [{
-    id: 1,
-    name: 'get-up',
-    description: 'get up early',
-    isCompleted: false
-  }, {
-    id: 2,
-    name: 'go-to-bed',
-    description: 'go to bed early',
-    isCompleted: true
-  }]
-};
-
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
+  const [todayCheckItems, setTodayCheckItems] = useState([]);
   const clickedItem = useRef(null);
 
+  useEffect(() => {
+    _getTodayCheckItems();
+  }, []);
+
   const handleClick = (index) => {
-    const habit = todayHabitData.data[index];
+    const habit = todayCheckItems[index];
     if (habit && habit.isCompleted) return;
     clickedItem.current = index;
     setShowModal(true);
@@ -36,10 +28,19 @@ const Home = () => {
     setShowModal(false);
   };
 
-  const handleModalRight = (e) => {
+  const handleModalRight = async (e) => {
     const index = clickedItem.current;
-    todayHabitData.data[index].isCompleted = true;
+    await axios.post('/api/check_record', {
+      checkItemId: todayCheckItems[index].id
+    });
+    todayCheckItems[index].isCompleted = true;
     setShowModal(false);
+  };
+
+  const _getTodayCheckItems = async () => {
+    const res = await axios.get('/api/check_record/today');
+    console.log('todayCheck', res);
+    setTodayCheckItems(res.data);
   };
 
   return (
@@ -48,7 +49,7 @@ const Home = () => {
       <Header title="Home" />
 
       <div className="content-wrapper">
-        {todayHabitData.data.map((habit, index) => (
+        {todayCheckItems.map((habit, index) => (
           <div className="habit-item" key={habit.id} onClick={() => { handleClick(index); }}>
             <Habit habit={habit} />
           </div>

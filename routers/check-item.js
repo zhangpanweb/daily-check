@@ -5,6 +5,7 @@ const knex = require('../database');
 
 router.post('/check_item', async (req, res) => {
   const params = req.body;
+  params.ownerId = 1;
   const result = await knex('check_item').insert(params);
   const id = result[0];
   const checkItem = await knex('check_item').select().where({ id });

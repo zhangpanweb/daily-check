@@ -11,6 +11,10 @@ const knex = require('knex')({
     password: 'daily_check',
     database: 'daily_check_db'
   },
+  pool: {
+    min: 2,
+    max: 7
+  },
   debug: true,
   postProcessResponse: (result, queryContext) => convertToCamel(result),
   wrapIdentifier: (value, origImpl, queryContext) => origImpl(convertToSnakeCase(value))
