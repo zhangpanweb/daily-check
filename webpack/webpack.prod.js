@@ -3,6 +3,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = () => ({
   mode: 'production',
@@ -18,7 +19,8 @@ module.exports = () => ({
     new MiniCssExtractPlugin({
       filename: '[name].[contentHash].css',
       chunkFilename: '[name].css'
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ],
 
   optimization: {
@@ -26,6 +28,7 @@ module.exports = () => ({
       new TerserJSPlugin({}),
       new OptimizeCSSAssetsPlugin({})
     ],
+    runtimeChunk: 'single',
     splitChunks: {
       cacheGroups: {
         vendor: {
@@ -35,7 +38,7 @@ module.exports = () => ({
         common: {
           name: 'common',
           minChunks: 2,
-          chunks: 'async',
+          chunks: 'all',
           priority: 10,
           reuseExistingChunk: true,
           enforce: true

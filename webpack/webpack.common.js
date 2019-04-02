@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env) => ({
   entry: {
-    app: path.resolve(__dirname, '../entry/index.jsx')
+    app: path.resolve(__dirname, '../entry/index.jsx'),
+    vendors: path.resolve(__dirname, '../entry/vendors.jsx')
   },
 
   resolve: {

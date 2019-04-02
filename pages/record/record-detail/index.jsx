@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+// import moment from 'moment';
 
 import './style.less';
 
@@ -39,7 +39,7 @@ const RecordDetail = ({ history, location }) => {
     <div className="date-record-container">
       <Header title="打卡详情" leftIcon="<" onClickLeft={handleGoBack}/>
       <div className="header">
-        <span>{moment(date).format('YYYY-MM-DD')}</span>
+        {/* <span>{moment(date).format('YYYY-MM-DD')}</span> */}
         <span className="count">{data.count}个</span>
       </div>
       <div className="journals">
