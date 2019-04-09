@@ -1,33 +1,46 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import cname from 'classnames';
 
 import './style.less';
 
-const InputModal = ({ visible = false, title, confirmText, leftText, rightText, clickLeft, clickRight }) => {
+const InputModal = ({ visible = false, title, confirmText, intialInputValue = '', leftText, rightText, clickLeft, clickRight }) => {
   const hasShow = useRef(false);
   const [inputValue, setInputValue] = useState('');
+  const [innerVisible, setInnerVisible] = useState(false);
+
+  useLayoutEffect(() => {
+    setInputValue(intialInputValue);
+    setInnerVisible(visible);
+  }, [intialInputValue, visible]);
 
   function OnClickLeft (e) {
     clickLeft(e);
   }
 
   function OnClickRight (e) {
+    if (!inputValue) return;
     clickRight(e, inputValue);
     setInputValue('');
   }
 
+  const handleDismissModal = (e) => {
+    if (e.target.className === 'input-modal-container') {
+      setInnerVisible(false);
+    }
+  };
+
   const Modal = (
-    <div className={cname('input-modal-container', { hidden: !visible })}>
+    <div className={cname('input-modal-container', { hidden: !innerVisible })} onClick={(e) => handleDismissModal(e)}>
       <div className="modal-container">
 
         <span className="title">{title}</span>
 
         <div className="body">
-          <span>
-            {confirmText}
-          </span>
+          {
+            confirmText ? <span>{confirmText}</span> : null
+          }
 
           <input value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
         </div>

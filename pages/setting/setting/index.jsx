@@ -10,7 +10,10 @@ import InputModal from '../../../components/input-modal';
 
 const Setting = ({ history }) => {
   const [checkItems, setCheckItems] = useState([]);
-  const [InputModalVisible, setInputModalVisible] = useState(false);
+  const [addItemModalVisible, setAddItemModalVisible] = useState(false);
+  const [editItemMdalVisible, seteditItemMdalVisible] = useState(false);
+  const [intialInputValue, setIntialInputValue] = useState('');
+  const [selectedItemIndex, setSelectedItemIndex] = useState(0);
 
   const goBackIcon = <i className="iconfont icon-left"></i>;
   const addItemIcon = <i className="iconfont icon-plus"></i>;
@@ -20,20 +23,46 @@ const Setting = ({ history }) => {
   };
 
   const handleOpenAddItemModal = () => {
-    setInputModalVisible(true);
+    setAddItemModalVisible(true);
   };
 
   const handleAddItem = async (e, value) => {
-    console.log(value);
     const addedItem = await axios.post(`/api/check_item`, {
       name: value
     });
     checkItems.push(addedItem.data);
-    setInputModalVisible(false);
+    setAddItemModalVisible(false);
   };
 
   const onCancelAddItem = () => {
-    setInputModalVisible(false);
+    setAddItemModalVisible(false);
+  };
+
+  const handleOpenEditItemModal = (index) => {
+    setSelectedItemIndex(index);
+
+    const item = checkItems[index];
+    setIntialInputValue(item.name);
+
+    seteditItemMdalVisible(true);
+  };
+
+  const onDeleteItem = async () => {
+    const item = checkItems[selectedItemIndex];
+    await axios.put(`/api/check_item/${item.id}`, {
+      enabled: 0
+    });
+    checkItems.splice(selectedItemIndex, 1);
+    seteditItemMdalVisible(false);
+  };
+
+  const onSaveItem = async (e, value) => {
+    const item = checkItems[selectedItemIndex];
+    await axios.put(`/api/check_item/${item.id}`, {
+      name: value
+    });
+    checkItems[selectedItemIndex].name = value;
+    seteditItemMdalVisible(false);
   };
 
   useEffect(() => {
@@ -61,9 +90,9 @@ const Setting = ({ history }) => {
         <div className="check-item-list">
           <ul>
             {
-              checkItems.map((item) => {
+              checkItems.map((item, index) => {
                 return (
-                  <li key={item.id}>{item.name}</li>
+                  <li key={item.id} onClick={() => { handleOpenEditItemModal(index); }}>{item.name}</li>
                 );
               })
             }
@@ -73,13 +102,23 @@ const Setting = ({ history }) => {
       </div>
 
       <InputModal
-        visible={InputModalVisible}
+        visible={addItemModalVisible}
         title="添加打卡项"
         confirmText="输入打卡项名称，添加新的打卡项"
         leftText="取消"
         clickLeft={onCancelAddItem}
         rightText="添加"
         clickRight={handleAddItem}
+      />
+
+      <InputModal
+        visible={editItemMdalVisible}
+        intialInputValue={intialInputValue}
+        title="编辑打卡项"
+        leftText="删除"
+        clickLeft={onDeleteItem}
+        rightText="保存"
+        clickRight={onSaveItem}
       />
 
     </div>

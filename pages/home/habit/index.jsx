@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 import './style.less';
 
 const Habit = ({ habit }) => {
-  const completedImg = <img className="indicator" src="/static/images/check-circle.png"/>;
-  const notCompletedImg = <img className="indicator" src="/static/images/close-circle.png"/>;
+  const completedImg = <i className="iconfont icon-check-circle"></i>;
+  const notCompletedImg = <i className="iconfont icon-close-circle"></i>;
 
   return (
     <div className="habit-item-wrapper">

@@ -14,7 +14,8 @@ router.get('/check_record/today', async (req, res) => {
     });
 
     const checkItems = await knex('checkItem').select().where({
-      ownerId: userId
+      ownerId: userId,
+      enabled: 1
     });
 
     const todayCheck = checkItems.map(item => {
