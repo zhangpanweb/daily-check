@@ -33,7 +33,7 @@ function covertDateToDay (date) {
 //   }
 // }
 
-const Calendar = ({ value = new Date() }) => {
+const Calendar = ({ value = new Date(), onChangeDate }) => {
   const [selectedDate, setSelectedDate] = useState(parseInt(moment(value).format('DD'), 10));
   const [selectedMonth, setSelectedMonth] = useState(moment(value).format('YYYY-MM-DD'));
   const [monthDates, setMonthDates] = useState([]);
@@ -79,7 +79,12 @@ const Calendar = ({ value = new Date() }) => {
   };
 
   const handleSelectedDate = (date) => {
-    setSelectedDate(date);
+    if (date) {
+      setSelectedDate(date);
+
+      const fomatedDate = `${moment(selectedMonth).format('YYYY-MM').toString()}-${date}`;
+      onChangeDate(moment(fomatedDate).format('YYYY-MM-DD'));
+    }
   };
 
   let key = 1;
@@ -118,7 +123,8 @@ const Calendar = ({ value = new Date() }) => {
 };
 
 Calendar.propTypes = {
-  value: propTypes.object
+  value: propTypes.oneOfType([propTypes.object, propTypes.string]),
+  onChangeDate: propTypes.func
 };
 
 export default Calendar;

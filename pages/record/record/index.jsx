@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import Calendar from 'react-calendar';
 import Calendar from '../../../components/calendar';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -26,12 +25,6 @@ const Record = ({ history }) => {
     setDate(date);
   };
 
-  const clickRecord = () => {
-    history.push('/record/detail', {
-      date
-    });
-  };
-
   const _getRecords = async () => {
     const res = await axios.get('/api/check_record/month');
     setRecords(res.data);
@@ -40,16 +33,16 @@ const Record = ({ history }) => {
   return (
     <div className="setting-container">
       <Header
-        title="Setting"
+        title="成就"
       />
 
       <div className="content-wrapper">
         <Calendar
-          onChange={changeDate}
+          onChangeDate={changeDate}
           value={date}
         />
 
-        <div className="record-area" onClick={clickRecord}>
+        <div className="record-area">
           <RecordPreview recordData={records[moment(date).format('YYYY-MM-DD')]}/>
         </div>
 
