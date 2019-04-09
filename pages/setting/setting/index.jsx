@@ -6,15 +6,34 @@ import axios from 'axios';
 import './style.less';
 
 import Header from '../../../components/header';
+import InputModal from '../../../components/input-modal';
 
 const Setting = ({ history }) => {
   const [checkItems, setCheckItems] = useState([]);
+  const [InputModalVisible, setInputModalVisible] = useState(false);
 
   const goBackIcon = <i className="iconfont icon-left"></i>;
   const addItemIcon = <i className="iconfont icon-plus"></i>;
 
-  const goBack = () => {
+  const handleGoBack = () => {
     history.go(-1);
+  };
+
+  const handleOpenAddItemModal = () => {
+    setInputModalVisible(true);
+  };
+
+  const handleAddItem = async (e, value) => {
+    console.log(value);
+    const addedItem = await axios.post(`/api/check_item`, {
+      name: value
+    });
+    checkItems.push(addedItem.data);
+    setInputModalVisible(false);
+  };
+
+  const onCancelAddItem = () => {
+    setInputModalVisible(false);
   };
 
   useEffect(() => {
@@ -32,8 +51,9 @@ const Setting = ({ history }) => {
       <Header
         title="设置"
         leftIcon={goBackIcon}
-        onClickLeft={goBack}
+        onClickLeft={handleGoBack}
         rightIcon={addItemIcon}
+        onClickRight={handleOpenAddItemModal}
       />
 
       <div className="content-wrapper">
@@ -51,6 +71,16 @@ const Setting = ({ history }) => {
         </div>
 
       </div>
+
+      <InputModal
+        visible={InputModalVisible}
+        title="添加打卡项"
+        confirmText="输入打卡项名称，添加新的打卡项"
+        leftText="取消"
+        clickLeft={onCancelAddItem}
+        rightText="添加"
+        clickRight={handleAddItem}
+      />
 
     </div>
   );

@@ -5,8 +5,6 @@ async function create (knex) {
     table.increments();
     table.integer('owner_id').unsigned();
     table.string('name');
-    table.string('description');
-    table.boolean('journal_must');
     table.timestamps(false, true);
 
     table.index('owner_id');

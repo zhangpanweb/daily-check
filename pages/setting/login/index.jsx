@@ -5,16 +5,16 @@ import PropTypes from 'prop-types';
 import './style.less';
 
 import Header from '../../../components/header';
-import BottomButton from '../../../components/bottom-button';
+// import BottomButton from '../../../components/bottom-button';
 
 const Login = ({ history }) => {
   const goBack = () => {
     history.go(-1);
   };
 
-  const handleLogin = () => {
-    console.log('successfully login');
-  };
+  // const handleLogin = () => {
+  //   console.log('successfully login');
+  // };
 
   return (
     <div className="login-container">
@@ -28,10 +28,10 @@ const Login = ({ history }) => {
         <input placeholder="请输入账号"/>
       </div>
 
-      <BottomButton
+      {/* <BottomButton
         text="创建账号 or 登录"
         onClick={handleLogin}
-      />
+      /> */}
     </div>
   );
 };

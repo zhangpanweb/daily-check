@@ -1,4 +1,4 @@
-.confirm-modal-container{
+.input-modal-container{
   position: fixed;
   // background: rgba(128, 128, 128, 0.5);
   top: 0;
@@ -33,8 +33,19 @@
       box-sizing: border-box;
 
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: space-around;
+      align-items: center;
+
+      input{
+        outline: none;
+        box-shadow: none;
+        border: none;
+        border-bottom: 1px solid black;
+
+        width: 80%;
+        height: 80/124rem;
+      }
     }
 
     .footer{
@@ -52,6 +63,6 @@
     }
   }
 }
-.confirm-modal-container.hidden{
+.input-modal-container.hidden{
   display: none;
 }
