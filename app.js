@@ -3,6 +3,7 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 
 const router = require('./routers');
+const middleware = require('./routers/middleware');
 
 const app = express();
 const PORT = process.env.PORT || '3100';
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('dist'));
 
 // db.prepare();
-
+app.use(middleware.auth);
 app.use(router);
 
 app.get('/*', async (req, res) => {

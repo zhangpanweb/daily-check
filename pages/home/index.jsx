@@ -71,6 +71,7 @@ const Home = () => {
         clickRight={handleModalRight}
         onDismissModal={handleCloseModal}
       />
+
     </div>
   );
 };
