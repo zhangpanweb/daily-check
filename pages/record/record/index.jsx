@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Calendar from 'react-calendar';
+// import Calendar from 'react-calendar';
+import Calendar from '../../../components/calendar';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -11,17 +12,6 @@ import Header from '../../../components/header';
 import NavTab from '../../../components/nav-tab';
 
 import RecordPreview from '../record-preview';
-
-const recordData = {
-  checkCount: 2,
-  checkItems: [{
-    id: 1,
-    name: '俯卧撑'
-  }, {
-    id: 2,
-    name: '看书'
-  }]
-};
 
 const Record = ({ history }) => {
   const defaultDate = new Date();

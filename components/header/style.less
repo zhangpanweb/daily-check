@@ -1,28 +1,15 @@
 .header-container{
-  @header-height:45px;
+  @header-height:150/124rem;
 
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: @header-height;
-  text-align: center;
-  line-height: @header-height;
-  border-bottom: 1px solid grey;
+  border-bottom:1px solid rgba(0,0,0,0.1);
 
-  .title{
-    position: fixed;
-    left: 0;
-    right: 0;
-  }
-  .left-operation{
-    position: fixed;
-    left: 20px;
-    z-index: 1;
-  }
-  .right-operation{
-    position: fixed;
-    right: 20px;
-    z-index: 1;
-  }
+  display: flex;
+  padding: 0 30/124rem;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -4,23 +4,22 @@ import PropTypes from 'prop-types';
 import './style.less';
 
 const Habit = ({ habit }) => {
+  const completedImg = <img className="indicator" src="/static/images/check-circle.png"/>;
+  const notCompletedImg = <img className="indicator" src="/static/images/close-circle.png"/>;
+
   return (
     <div className="habit-item-wrapper">
+
+      { habit.isCompleted ? completedImg : notCompletedImg }
+
       <p className="name">
         {habit.name}
       </p>
-      <p className="description">
-        {habit.description}
-      </p>
-      {
-        habit.isCompleted
-          ? <p className="completed">
-            completed
-          </p> : null
-      }
+
     </div>
   );
 };
+
 Habit.propTypes = {
   habit: PropTypes.shape({
     id: PropTypes.number.isRequired,

@@ -45,7 +45,7 @@ const Home = () => {
   return (
     <div className="home-container">
 
-      <Header title="Home" />
+      <Header title="打卡" />
 
       <div className="content-wrapper">
         {todayCheckItems.map((habit, index) => (
