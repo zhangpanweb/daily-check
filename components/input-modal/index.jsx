@@ -5,7 +5,7 @@ import cname from 'classnames';
 
 import './style.less';
 
-const InputModal = ({ visible = false, title, confirmText, intialInputValue = '', leftText, rightText, clickLeft, clickRight }) => {
+const InputModal = ({ visible = false, title, confirmText, intialInputValue = '', leftText, rightText, clickLeft, clickRight, onDismissModal }) => {
   const hasShow = useRef(false);
   const [inputValue, setInputValue] = useState('');
   const [innerVisible, setInnerVisible] = useState(false);
@@ -26,8 +26,8 @@ const InputModal = ({ visible = false, title, confirmText, intialInputValue = ''
   }
 
   const handleDismissModal = (e) => {
-    if (e.target.className === 'input-modal-container') {
-      setInnerVisible(false);
+    if (e.target.className === 'input-modal-container' && onDismissModal) {
+      onDismissModal();
     }
   };
 
@@ -84,7 +84,8 @@ InputModal.propTypes = {
   leftText: PropTypes.string,
   rightText: PropTypes.string,
   clickLeft: PropTypes.func,
-  clickRight: PropTypes.func
+  clickRight: PropTypes.func,
+  onDismissModal: PropTypes.func
 };
 
 export default InputModal;

@@ -65,6 +65,10 @@ const Setting = ({ history }) => {
     seteditItemMdalVisible(false);
   };
 
+  const onCloseEditItem = () => {
+    seteditItemMdalVisible(false);
+  };
+
   useEffect(() => {
     _getCheckItems();
   }, []);
@@ -109,6 +113,7 @@ const Setting = ({ history }) => {
         clickLeft={onCancelAddItem}
         rightText="添加"
         clickRight={handleAddItem}
+        onDismissModal={onCancelAddItem}
       />
 
       <InputModal
@@ -119,6 +124,7 @@ const Setting = ({ history }) => {
         clickLeft={onDeleteItem}
         rightText="保存"
         clickRight={onSaveItem}
+        onDismissModal={onCloseEditItem}
       />
 
     </div>

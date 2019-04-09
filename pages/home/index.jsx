@@ -37,6 +37,10 @@ const Home = () => {
     setShowModal(false);
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const _getTodayCheckItems = async () => {
     const res = await axios.get('/api/check_record/today');
     setTodayCheckItems(res.data);
@@ -60,11 +64,12 @@ const Home = () => {
       <ConfirmModal
         visible={showModal}
         title="打卡确认"
-        confirmText="是否确认打开"
+        confirmText="确认已经完成了打卡项吗？完成了就打卡吧"
         leftText="取消"
         rightText="确认"
         clickLeft={handleModalLeft}
         clickRight={handleModalRight}
+        onDismissModal={handleCloseModal}
       />
     </div>
   );

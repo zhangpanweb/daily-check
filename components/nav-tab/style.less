@@ -1,4 +1,6 @@
 .nav-tab-container{
+  @nav-bar-height: 165/124rem;
+
   position: fixed;
   bottom: 0;
   left: 0;
@@ -7,12 +9,13 @@
   margin: 0;
   padding: 0;
   border-top: 1px solid rgba(0,0,0,0.1);
+  background: rgba(255,255,255,1);
 
   display: flex;
   justify-content: space-around;
   align-items: center;
 
-  height: 165/124rem;
+  height: @nav-bar-height;
 
   a{
     text-decoration: none;
