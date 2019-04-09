@@ -1,16 +1,43 @@
 .setting-container{
-  margin-top: 45px;
+  @header-height:150/124rem;
+  @left-padding: 55/124rem;
 
-  .content{
-    span{
-      display: flex;
-      margin: 130px auto;
-      border: 1px solid black;
-      height: 100px;
-      width: 100px;
-      border-radius: 50%;
-      justify-content: space-around;
-      align-items: center;
+  margin-top: @header-height;
+
+  .content-wrapper{
+
+    .check-item-list{
+      margin-top: @header-height+30/124rem;
+
+      label{
+        display: block;
+        padding: 30/124rem @left-padding;
+        box-sizing: border-box;
+      }
+
+      ul{
+        background:rgba(250,250,250,1);
+
+        li{
+          width: 100%;
+          height: 170/124rem;
+      
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      
+          padding: 0 @left-padding;
+          box-sizing: border-box;
+      
+          font-size: 46/124rem;
+      
+          .indicator{
+            width: 49/124rem;
+            height: 49/124rem;
+          }
+        }
+      }
+      
     }
   }
 }

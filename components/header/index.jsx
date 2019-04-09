@@ -19,8 +19,8 @@ const Header = ({
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
-  leftIcon: PropTypes.string,
-  rightIcon: PropTypes.string,
+  leftIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  rightIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   onClickLeft: PropTypes.func,
   onClickRight: PropTypes.func
 };

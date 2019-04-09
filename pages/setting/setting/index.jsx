@@ -1,19 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
 import './style.less';
 
 import Header from '../../../components/header';
-import NavTab from '../../../components/nav-tab';
 
 const Setting = ({ history }) => {
-  const handleAddCheck = () => {
-    history.push('/setting/add');
+  const [checkItems, setCheckItems] = useState([]);
+
+  const goBackIcon = <i className="iconfont icon-left"></i>;
+  const addItemIcon = <i className="iconfont icon-plus"></i>;
+
+  const goBack = () => {
+    history.go(-1);
   };
 
-  const handleInterAccount = () => {
-    history.push('/setting/account');
+  useEffect(() => {
+    _getCheckItems();
+  }, []);
+
+  const _getCheckItems = async () => {
+    const res = await axios.get('/api/check_item/1');
+    setCheckItems(res.data);
   };
 
   return (
@@ -21,18 +31,27 @@ const Setting = ({ history }) => {
 
       <Header
         title="设置"
+        leftIcon={goBackIcon}
+        onClickLeft={goBack}
+        rightIcon={addItemIcon}
       />
 
-      <div className="content">
-        <span onClick={handleAddCheck}>
-          添加
-        </span>
-        <span onClick={handleInterAccount}>
-          账户
-        </span>
+      <div className="content-wrapper">
+
+        <div className="check-item-list">
+          <ul>
+            {
+              checkItems.map((item) => {
+                return (
+                  <li key={item.id}>{item.name}</li>
+                );
+              })
+            }
+          </ul>
+        </div>
+
       </div>
 
-      <NavTab/>
     </div>
   );
 };

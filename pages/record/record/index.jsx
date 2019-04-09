@@ -25,15 +25,21 @@ const Record = ({ history }) => {
     setDate(date);
   };
 
+  const handleIntoSetting = () => {
+    history.push('/setting');
+  };
+
   const _getRecords = async () => {
     const res = await axios.get('/api/check_record/month');
     setRecords(res.data);
   };
 
   return (
-    <div className="setting-container">
+    <div className="record-container">
       <Header
         title="成就"
+        rightIcon="设置"
+        onClickRight={handleIntoSetting}
       />
 
       <div className="content-wrapper">
