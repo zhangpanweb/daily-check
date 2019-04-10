@@ -7,7 +7,7 @@ const knex = require('../database');
 
 router.get('/check_record/today', async (req, res) => {
   try {
-    const userId = 1;
+    const userId = req.user.id;
     const records = await knex('checkRecord').select().where({
       ownerId: userId,
       date: moment().format('YYYY-MM-DD')
@@ -31,7 +31,7 @@ router.get('/check_record/today', async (req, res) => {
 
 router.post('/check_record', async (req, res) => {
   try {
-    const userId = 1;
+    const userId = req.user.id;
     const { checkItemId } = req.body;
 
     await knex('checkRecord').insert({
@@ -48,7 +48,7 @@ router.post('/check_record', async (req, res) => {
 
 router.get('/check_record/month', async (req, res) => {
   try {
-    const userId = 1;
+    const userId = req.user.id;
     const month = req.query.month || new Date();
 
     const firstDayOfMonth = moment(month).startOf('month').format('YYYY-MM-DD');
@@ -76,7 +76,7 @@ router.get('/check_record/month', async (req, res) => {
 
 router.get('/check_record/date', async (req, res) => {
   try {
-    const userId = 1;
+    const userId = req.user.id;
     const date = req.query.date || new Date();
 
     const records = await knex('checkRecord').select()

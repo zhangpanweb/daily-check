@@ -74,7 +74,7 @@ const Setting = ({ history }) => {
   }, []);
 
   const _getCheckItems = async () => {
-    const res = await axios.get('/api/check_item/1');
+    const res = await axios.get('/api/check_item');
     setCheckItems(res.data);
   };
 

@@ -5,7 +5,7 @@ const knex = require('../database');
 
 router.post('/check_item', async (req, res) => {
   const params = req.body;
-  params.ownerId = 1;
+  params.ownerId = req.user.id;
   const result = await knex('checkItem').insert(params);
   const id = result[0];
   const checkItem = await knex('checkItem').select().where({ id });
@@ -20,8 +20,8 @@ router.put('/check_item/:id', async (req, res) => {
   res.status(200).send('ok');
 });
 
-router.get('/check_item/:userId', async (req, res) => {
-  const userId = req.params.userId;
+router.get('/check_item', async (req, res) => {
+  const userId = req.user.id;
 
   const checkItems = await knex('checkItem').select().where({
     ownerId: userId,

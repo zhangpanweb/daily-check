@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import './style.less';
 
 import Home from '../home';
@@ -8,7 +9,7 @@ import Setting from '../setting';
 import InputModal from '../../components/input-modal';
 import axios from 'axios';
 
-const App = () => {
+const App = ({ history }) => {
   const [user, setUser] = useState({});
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const App = () => {
   const handleLogin = async (e, value) => {
     const user = await axios.post('/api/user/login', { name: value });
     setUser(user);
+    history.go(0);
   };
 
   return (
@@ -49,4 +51,8 @@ const App = () => {
   );
 };
 
-export default App;
+App.propTypes = {
+  history: PropTypes.object
+};
+
+export default withRouter(App);

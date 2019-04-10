@@ -13,7 +13,8 @@ router.post('/user/login', async (req, res) => {
   if (!user) {
     const result = await knex('user').insert({ name });
     const id = result[0];
-    user = await knex('user').select().where({ id });
+    const userResult = await knex('user').select().where({ id });
+    user = userResult[0];
   }
 
   const token = jwt.sign(user, 'daily-check');
