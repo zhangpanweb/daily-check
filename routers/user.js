@@ -22,4 +22,9 @@ router.post('/user/login', async (req, res) => {
   res.status(200).send('ok');
 });
 
+router.get('/user', async (req, res) => {
+  const user = req.user;
+  res.status(200).json(user);
+});
+
 module.exports = router;

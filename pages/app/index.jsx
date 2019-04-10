@@ -8,27 +8,21 @@ import Setting from '../setting';
 import InputModal from '../../components/input-modal';
 import axios from 'axios';
 
-function getTokenFromCookie () {
-  const cookies = {};
-  const cookeStringArr = document.cookie.split(';');
-  cookeStringArr.forEach((cookie) => {
-    const keyAndValue = cookie.split('=');
-    cookies[keyAndValue[0]] = keyAndValue[1];
-  });
-  return cookies;
-}
-
 const App = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
-    const token = getTokenFromCookie().dailyCheckToken;
-    checkToken(token);
-    console.log(token);
-  });
+    _checkToken();
+  }, []);
 
-  const checkToken = (token) => {
-
+  const _checkToken = async () => {
+    try {
+      const user = await axios.get('/api/user');
+      setUser(user);
+    } catch (e) {
+      setUser(null);
+      console.error('not login');
+    }
   };
 
   const handleLogin = async (e, value) => {
