@@ -43,7 +43,6 @@ module.exports = (env) => ({
   plugins: [
     new HtmlWebpackPlugin({
       template: './views/index.html'
-
     })
   ]
 });

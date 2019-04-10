@@ -20,7 +20,7 @@ app.use(middleware.auth);
 app.use(router);
 
 app.get('/*', async (req, res) => {
-  const page = fs.readFileSync('./views/index.html');
+  const page = fs.readFileSync('./dist/index.html');
   res.end(page);
 });
 
