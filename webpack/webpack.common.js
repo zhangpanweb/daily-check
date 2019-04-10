@@ -17,9 +17,9 @@ module.exports = (env) => ({
       {
         test: [/.js$/, /.jsx$/],
         exclude: /node_modules/,
-        use: {
+        use: [{
           loader: 'babel-loader'
-        }
+        }]
       }, {
         test: /\.less$/,
         use: [{
@@ -35,6 +35,11 @@ module.exports = (env) => ({
           loader: (env.ENV === 'development') ? 'style-loader' : MiniCssExtractPlugin.loader
         }, {
           loader: 'css-loader'
+        }]
+      }, {
+        test: /\.(png|jpg|gif)$/i,
+        use: [{
+          loader: 'file-loader'
         }]
       }
     ]

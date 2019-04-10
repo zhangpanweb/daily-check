@@ -91,9 +91,9 @@ const Calendar = ({ value = new Date(), onChangeDate }) => {
   return (
     <div className="calendar-container">
       <div className="title">
-        <img src="/static/images/calendar-left.png" onClick={handleSelectPreMonth}/>
+        <img src={require('../../static/images/calendar-left.png')} onClick={handleSelectPreMonth}/>
         <span>日期</span>
-        <img src="/static/images/calendar-right.png" onClick={handleSelectNextMonth}/>
+        <img src={require('../../static/images/calendar-right.png')} onClick={handleSelectNextMonth}/>
       </div>
 
       <div className="day">
