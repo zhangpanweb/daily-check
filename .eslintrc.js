@@ -28,5 +28,10 @@ module.exports = {
       'error', 
       'last'
     ]
-  }
+  },
+  'settings': {
+    'react': {
+      'version': 'detect'
+    }
+  },
 };

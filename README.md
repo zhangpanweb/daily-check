@@ -17,7 +17,9 @@ With my personal study, this project will be completed gradually.
   - using webpack watch to support auto bundle when file changed
   - souce map
 
-#### todo
 
-- set eslint
-- ...
+## add to common-react-config
+
+- add file-loader to deal with images
+- add 'npm run build-analyze' script (distinguish from 'npm run build')
+- add 'common' cacheGroup
