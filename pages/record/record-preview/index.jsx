@@ -8,17 +8,17 @@ const RecordPreview = ({ recordData }) => {
 
   return (
     <ul className="record-list-container">
+
       <span className="title">完成项</span>
-      {
-        recordData.map((data) => {
-          return (
-            <li key={data.checkItemId}>
-              <span className="name">{data.name}</span>
-              <img className="indicator" src="/static/images/checked-box.png"/>
-            </li>
-          );
-        })
-      }
+
+      {recordData.map((record) => {
+        return (
+          <li key={record.checkItemId}>
+            <span className="name">{record.name}</span>
+            <img className="indicator" src={require('../../../static/images/checked-box.png')}/>
+          </li>
+        );
+      })}
     </ul>
   );
 };

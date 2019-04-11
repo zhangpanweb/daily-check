@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Calendar from '../../../components/calendar';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -9,11 +8,13 @@ import './style.less';
 
 import Header from '../../../components/header';
 import NavTab from '../../../components/nav-tab';
+import Calendar from '../../../components/calendar';
 
 import RecordPreview from '../record-preview';
 
 const Record = ({ history }) => {
   const defaultDate = new Date();
+
   const [date, setDate] = useState(defaultDate);
   const [records, setRecords] = useState({});
 
@@ -21,7 +22,7 @@ const Record = ({ history }) => {
     _getRecords();
   }, []);
 
-  const changeDate = (date) => {
+  const handleChangeDate = (date) => {
     setDate(date);
   };
 
@@ -44,15 +45,15 @@ const Record = ({ history }) => {
 
       <div className="content-wrapper">
         <Calendar
-          onChangeDate={changeDate}
+          onChangeDate={handleChangeDate}
           value={date}
         />
 
         <div className="record-area">
           <RecordPreview recordData={records[moment(date).format('YYYY-MM-DD')]}/>
         </div>
-
       </div>
+
       <NavTab/>
     </div>
   );

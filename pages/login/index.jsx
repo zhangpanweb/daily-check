@@ -3,15 +3,25 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-import Header from '../../components/header';
-
 import './style.less';
+
+import Header from '../../components/header';
 
 const Login = ({ history }) => {
   const [loginOrRegist, setLoginOrRegist] = useState('login');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const hanldeUsernameInput = (e) => {
+    setUsername(e.target.value);
+    setErrorMessage('');
+  };
+
+  const handlePasswordInput = (e) => {
+    setPassword(e.target.value);
+    setErrorMessage('');
+  };
 
   const handleLoginOrRegist = async () => {
     if (!username || !password) {
@@ -37,16 +47,6 @@ const Login = ({ history }) => {
     } else {
       history.push('/');
     }
-  };
-
-  const hanldeUsernameInput = (e) => {
-    setUsername(e.target.value);
-    setErrorMessage('');
-  };
-
-  const handlePasswordInput = (e) => {
-    setPassword(e.target.value);
-    setErrorMessage('');
   };
 
   const handleSwitchLoginAndRegist = () => {

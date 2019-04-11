@@ -12,11 +12,13 @@ const Setting = ({ history }) => {
   const [checkItems, setCheckItems] = useState([]);
   const [addItemModalVisible, setAddItemModalVisible] = useState(false);
   const [editItemMdalVisible, seteditItemMdalVisible] = useState(false);
+
   const [intialInputValue, setIntialInputValue] = useState('');
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
 
-  const goBackIcon = <i className="iconfont icon-left"></i>;
-  const addItemIcon = <i className="iconfont icon-plus"></i>;
+  useEffect(() => {
+    _getCheckItems();
+  }, []);
 
   const handleGoBack = () => {
     history.go(-1);
@@ -34,7 +36,7 @@ const Setting = ({ history }) => {
     setAddItemModalVisible(false);
   };
 
-  const onCancelAddItem = () => {
+  const handleCancelAddItem = () => {
     setAddItemModalVisible(false);
   };
 
@@ -47,37 +49,37 @@ const Setting = ({ history }) => {
     seteditItemMdalVisible(true);
   };
 
-  const onDeleteItem = async () => {
+  const handleDeleteItem = async () => {
     const item = checkItems[selectedItemIndex];
     await axios.put(`/api/check_item/${item.id}`, {
       enabled: 0
     });
+
     checkItems.splice(selectedItemIndex, 1);
     seteditItemMdalVisible(false);
   };
 
-  const onSaveItem = async (e, value) => {
+  const handleSaveItem = async (e, value) => {
     const item = checkItems[selectedItemIndex];
     await axios.put(`/api/check_item/${item.id}`, {
       name: value
     });
+
     checkItems[selectedItemIndex].name = value;
     seteditItemMdalVisible(false);
   };
 
-  const onCloseEditItem = () => {
+  const handleCloseEditItem = () => {
     seteditItemMdalVisible(false);
   };
-
-  useEffect(() => {
-    _getCheckItems();
-  }, []);
 
   const _getCheckItems = async () => {
     const res = await axios.get('/api/check_item');
     setCheckItems(res.data);
   };
 
+  const goBackIcon = <i className="iconfont icon-left"></i>;
+  const addItemIcon = <i className="iconfont icon-plus"></i>;
   return (
     <div className="setting-container">
 
@@ -90,19 +92,15 @@ const Setting = ({ history }) => {
       />
 
       <div className="content-wrapper">
-
         <div className="check-item-list">
           <ul>
-            {
-              checkItems.map((item, index) => {
-                return (
-                  <li key={item.id} onClick={() => { handleOpenEditItemModal(index); }}>{item.name}</li>
-                );
-              })
-            }
+            {checkItems.map((item, index) => {
+              return (
+                <li key={item.id} onClick={() => { handleOpenEditItemModal(index); }}>{item.name}</li>
+              );
+            })}
           </ul>
         </div>
-
       </div>
 
       <InputModal
@@ -110,10 +108,10 @@ const Setting = ({ history }) => {
         title="添加打卡项"
         confirmText="输入打卡项名称，添加新的打卡项"
         leftText="取消"
-        clickLeft={onCancelAddItem}
+        clickLeft={handleCancelAddItem}
         rightText="添加"
         clickRight={handleAddItem}
-        onDismissModal={onCancelAddItem}
+        onDismissModal={handleCancelAddItem}
       />
 
       <InputModal
@@ -121,10 +119,10 @@ const Setting = ({ history }) => {
         intialInputValue={intialInputValue}
         title="编辑打卡项"
         leftText="删除"
-        clickLeft={onDeleteItem}
+        clickLeft={handleDeleteItem}
         rightText="保存"
-        clickRight={onSaveItem}
-        onDismissModal={onCloseEditItem}
+        clickRight={handleSaveItem}
+        onDismissModal={handleCloseEditItem}
       />
 
     </div>
