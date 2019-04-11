@@ -19,7 +19,6 @@ const App = ({ history }) => {
       await axios.get('/api/user');
     } catch (e) {
       history.push('/login');
-      console.error('not login');
     }
   };
 

@@ -5,7 +5,8 @@ module.exports = {
 };
 
 const notCheckUrl = [
-  '/api/user/login'
+  '/api/user/login',
+  '/api/user/register'
 ];
 
 async function auth (req, res, next) {

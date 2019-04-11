@@ -3,29 +3,29 @@ import PropTypes from 'prop-types';
 
 import './style.less';
 
-const Habit = ({ habit }) => {
+const CheckItem = ({ checkItem }) => {
   const completedImg = <i className="iconfont icon-check-circle"></i>;
   const notCompletedImg = <i className="iconfont icon-close-circle"></i>;
 
   return (
-    <div className="habit-item-wrapper">
+    <div className="check-item-container">
 
-      { habit.isCompleted ? completedImg : notCompletedImg }
+      { checkItem.isCompleted ? completedImg : notCompletedImg }
 
       <p className="name">
-        {habit.name}
+        {checkItem.name}
       </p>
 
     </div>
   );
 };
 
-Habit.propTypes = {
-  habit: PropTypes.shape({
+CheckItem.propTypes = {
+  checkItem: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     isCompleted: PropTypes.bool.isRequired
   })
 };
 
-export default Habit;
+export default CheckItem;

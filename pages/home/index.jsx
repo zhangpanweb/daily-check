@@ -4,41 +4,44 @@ import axios from 'axios';
 import './style.less';
 
 import Header from '../../components/header';
-import Habit from './habit';
+import CheckItem from './check-item';
 import ConfirmModal from '../../components/confirm-modal';
 import NavTab from '../../components/nav-tab';
 
 const Home = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [todayCheckItems, setTodayCheckItems] = useState([]);
   const clickedItem = useRef(null);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [todayCheckItems, setTodayCheckItems] = useState([]);
 
   useEffect(() => {
     _getTodayCheckItems();
   }, []);
 
-  const handleClick = (index) => {
-    const habit = todayCheckItems[index];
-    if (habit && habit.isCompleted) return;
+  const handleClickItem = (index) => {
+    const checkItem = todayCheckItems[index];
+
+    if (checkItem && checkItem.isCompleted) {
+      return;
+    }
+
     clickedItem.current = index;
-    setShowModal(true);
+    setModalVisible(true);
   };
 
-  const handleModalLeft = (e) => {
-    setShowModal(false);
-  };
-
-  const handleModalRight = async (e) => {
+  const handleDoCheck = async (e) => {
     const index = clickedItem.current;
+
     await axios.post('/api/check_record', {
       checkItemId: todayCheckItems[index].id
     });
+
     todayCheckItems[index].isCompleted = true;
-    setShowModal(false);
+    setModalVisible(false);
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
+  const handleCancelCheck = () => {
+    setModalVisible(false);
   };
 
   const _getTodayCheckItems = async () => {
@@ -52,24 +55,27 @@ const Home = () => {
       <Header title="打卡" />
 
       <div className="content-wrapper">
-        {todayCheckItems.map((habit, index) => (
-          <div className="habit-item" key={habit.id} onClick={() => { handleClick(index); }}>
-            <Habit habit={habit} />
+        {todayCheckItems.map((checkItem, index) => (
+          <div className="habit-item"
+            key={checkItem.id}
+            onClick={() => { handleClickItem(index); }}
+          >
+            <CheckItem checkItem={checkItem} />
           </div>
         ))}
       </div>
 
-      <NavTab/>
+      <NavTab />
 
       <ConfirmModal
-        visible={showModal}
+        visible={modalVisible}
         title="打卡确认"
         confirmText="确认已经完成了打卡项吗？完成了就打卡吧"
         leftText="取消"
         rightText="确认"
-        clickLeft={handleModalLeft}
-        clickRight={handleModalRight}
-        onDismissModal={handleCloseModal}
+        clickLeft={handleCancelCheck}
+        clickRight={handleDoCheck}
+        onDismissModal={handleCancelCheck}
       />
 
     </div>

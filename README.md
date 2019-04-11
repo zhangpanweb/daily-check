@@ -23,3 +23,7 @@ With my personal study, this project will be completed gradually.
 - add file-loader to deal with images
 - add 'npm run build-analyze' script (distinguish from 'npm run build')
 - add 'common' cacheGroup
+
+
+## project to do
+- 统一的错误处理 toast ，以及对请求的统一错误处理
