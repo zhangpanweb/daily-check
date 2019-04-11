@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './style.less';
@@ -6,30 +6,21 @@ import './style.less';
 import Home from '../home';
 import Record from '../record';
 import Setting from '../setting';
-import InputModal from '../../components/input-modal';
+import Login from '../login';
 import axios from 'axios';
 
 const App = ({ history }) => {
-  const [user, setUser] = useState({});
-
   useEffect(() => {
     _checkToken();
   }, []);
 
   const _checkToken = async () => {
     try {
-      const user = await axios.get('/api/user');
-      setUser(user);
+      await axios.get('/api/user');
     } catch (e) {
-      setUser(null);
+      history.push('/login');
       console.error('not login');
     }
-  };
-
-  const handleLogin = async (e, value) => {
-    const user = await axios.post('/api/user/login', { name: value });
-    setUser(user);
-    history.go(0);
   };
 
   return (
@@ -38,15 +29,8 @@ const App = ({ history }) => {
         <Route exact path="/" component={Home}/>
         <Route path="/record" component={Record}/>
         <Route path="/setting" component={Setting}/>
+        <Route path="/login" component={Login}/>
       </Switch>
-
-      <InputModal
-        visible={!user}
-        title="请输入用户名"
-        confirmText="输入用户名，登录或创建新的账号"
-        rightText="登录 or 创建账号"
-        clickRight={handleLogin}
-      />
     </div>
   );
 };

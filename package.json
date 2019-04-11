@@ -30,7 +30,8 @@
     "react": "^16.8.3",
     "react-calendar": "^2.18.1",
     "react-dom": "^16.8.3",
-    "react-router-dom": "^4.3.1"
+    "react-router-dom": "^4.3.1",
+    "sha1": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
