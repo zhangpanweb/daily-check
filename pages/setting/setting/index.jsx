@@ -86,9 +86,9 @@ const Setting = ({ history }) => {
       <Header
         title="设置"
         leftIcon={goBackIcon}
-        onClickLeft={handleGoBack}
+        onClickLeftOp={handleGoBack}
         rightIcon={addItemIcon}
-        onClickRight={handleOpenAddItemModal}
+        onClickRightOp={handleOpenAddItemModal}
       />
 
       <div className="content-wrapper">
@@ -106,11 +106,11 @@ const Setting = ({ history }) => {
       <InputModal
         visible={addItemModalVisible}
         title="添加打卡项"
-        confirmText="输入打卡项名称，添加新的打卡项"
-        leftText="取消"
-        clickLeft={handleCancelAddItem}
-        rightText="添加"
-        clickRight={handleAddItem}
+        bodyText="输入打卡项名称，添加新的打卡项"
+        leftOpText="取消"
+        onClickLeftOp={handleCancelAddItem}
+        rightOpText="添加"
+        onClickRightOp={handleAddItem}
         onDismissModal={handleCancelAddItem}
       />
 
@@ -118,10 +118,10 @@ const Setting = ({ history }) => {
         visible={editItemMdalVisible}
         intialInputValue={intialInputValue}
         title="编辑打卡项"
-        leftText="删除"
-        clickLeft={handleDeleteItem}
-        rightText="保存"
-        clickRight={handleSaveItem}
+        leftOpText="删除"
+        onClickLeftOp={handleDeleteItem}
+        rightOpText="保存"
+        onClickRightOp={handleSaveItem}
         onDismissModal={handleCloseEditItem}
       />
 

@@ -5,15 +5,26 @@ import cname from 'classnames';
 
 import './style.less';
 
-const ConfirmModal = ({ visible = false, title, confirmText, leftText, rightText, clickLeft, clickRight, onDismissModal }) => {
+const ConfirmModal = ({
+  visible = false,
+
+  title,
+  bodyText,
+  leftOpText,
+  rightOpText,
+
+  onClickLeftOp,
+  onClickRightOp,
+  onDismissModal
+}) => {
   const hasShow = useRef(false);
 
-  function OnClickLeft (e) {
-    clickLeft(e);
+  function handleClickLeftOp (e) {
+    onClickLeftOp(e);
   }
 
-  function OnClickRight (e) {
-    clickRight(e);
+  function handleClickRightOp (e) {
+    onClickRightOp(e);
   }
 
   const handleDismissModal = (e) => {
@@ -27,14 +38,13 @@ const ConfirmModal = ({ visible = false, title, confirmText, leftText, rightText
       <div className="modal-container">
         <span className="title">{title}</span>
 
-        {
-          confirmText ? <div className="body">{confirmText}</div> : null
-        }
+        { bodyText ? <div className="body">{bodyText}</div> : null }
 
         <div className="footer">
-          <button className="left" onClick={OnClickLeft}>{leftText}</button>
-          <button className="right" onClick={OnClickRight}>{rightText}</button>
+          <button className="left" onClick={handleClickLeftOp}>{leftOpText}</button>
+          <button className="right" onClick={handleClickRightOp}>{rightOpText}</button>
         </div>
+
       </div>
     </div>
   );
@@ -59,13 +69,12 @@ const ConfirmModal = ({ visible = false, title, confirmText, leftText, rightText
 
 ConfirmModal.propTypes = {
   visible: PropTypes.bool.isRequired,
-  type: PropTypes.string,
   title: PropTypes.string.isRequired,
-  confirmText: PropTypes.string,
-  leftText: PropTypes.string,
-  rightText: PropTypes.string,
-  clickLeft: PropTypes.func,
-  clickRight: PropTypes.func,
+  bodyText: PropTypes.string,
+  leftOpText: PropTypes.string,
+  rightOpText: PropTypes.string,
+  onClickLeftOp: PropTypes.func,
+  onClickRightOp: PropTypes.func,
   onDismissModal: PropTypes.func
 };
 

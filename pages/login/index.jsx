@@ -62,7 +62,7 @@ const Login = ({ history }) => {
       <Header
         title="登录"
         rightIcon={loginOrRegist === 'regist' ? '登录' : '注册'}
-        onClickRight={handleSwitchLoginAndRegist}
+        onClickRightOp={handleSwitchLoginAndRegist}
       />
 
       <div className="content-wrapper">

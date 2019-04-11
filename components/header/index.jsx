@@ -7,13 +7,13 @@ const Header = ({
   leftIcon,
   title,
   rightIcon,
-  onClickLeft,
-  onClickRight
+  onClickLeftOp,
+  onClickRightOp
 }) => (
   <div className="header-container">
-    <span className="left-operation" onClick={onClickLeft}>{leftIcon}</span>
+    <span className="left-operation" onClick={onClickLeftOp}>{leftIcon}</span>
     <span className="title">{title}</span>
-    <span className="right-operation" onClick={onClickRight}>{rightIcon}</span>
+    <span className="right-operation" onClick={onClickRightOp}>{rightIcon}</span>
   </div>
 );
 
@@ -21,8 +21,8 @@ Header.propTypes = {
   title: PropTypes.string.isRequired,
   leftIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   rightIcon: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  onClickLeft: PropTypes.func,
-  onClickRight: PropTypes.func
+  onClickLeftOp: PropTypes.func,
+  onClickRightOp: PropTypes.func
 };
 
 export default Header;

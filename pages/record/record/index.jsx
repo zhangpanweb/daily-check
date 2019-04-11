@@ -40,7 +40,7 @@ const Record = ({ history }) => {
       <Header
         title="成就"
         rightIcon="设置"
-        onClickRight={handleIntoSetting}
+        onClickRightOp={handleIntoSetting}
       />
 
       <div className="content-wrapper">

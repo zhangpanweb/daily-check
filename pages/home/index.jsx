@@ -70,11 +70,11 @@ const Home = () => {
       <ConfirmModal
         visible={modalVisible}
         title="打卡确认"
-        confirmText="确认已经完成了打卡项吗？完成了就打卡吧"
-        leftText="取消"
-        rightText="确认"
-        clickLeft={handleCancelCheck}
-        clickRight={handleDoCheck}
+        bodyText="确认已经完成了打卡项吗？完成了就打卡吧"
+        leftOpText="取消"
+        rightOpText="确认"
+        onClickLeftOp={handleCancelCheck}
+        onClickRightOp={handleDoCheck}
         onDismissModal={handleCancelCheck}
       />
 

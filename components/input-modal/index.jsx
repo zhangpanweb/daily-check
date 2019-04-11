@@ -5,7 +5,19 @@ import cname from 'classnames';
 
 import './style.less';
 
-const InputModal = ({ visible = false, title, confirmText, intialInputValue = '', leftText, rightText, clickLeft, clickRight, onDismissModal }) => {
+const InputModal = ({
+  visible = false,
+  title,
+
+  bodyText,
+  intialInputValue = '',
+  leftOpText,
+  rightOpText,
+
+  onClickLeftOp,
+  onClickRightOp,
+  onDismissModal
+}) => {
   const hasShow = useRef(false);
   const [inputValue, setInputValue] = useState('');
   const [innerVisible, setInnerVisible] = useState(false);
@@ -15,13 +27,13 @@ const InputModal = ({ visible = false, title, confirmText, intialInputValue = ''
     setInnerVisible(visible);
   }, [intialInputValue, visible]);
 
-  function OnClickLeft (e) {
-    clickLeft(e);
+  function handleClickLeftOp (e) {
+    onClickLeftOp(e);
   }
 
-  function OnClickRight (e) {
+  function handleClickRightOp (e) {
     if (!inputValue) return;
-    clickRight(e, inputValue);
+    onClickRightOp(e, inputValue);
     setInputValue('');
   }
 
@@ -34,24 +46,16 @@ const InputModal = ({ visible = false, title, confirmText, intialInputValue = ''
   const Modal = (
     <div className={cname('input-modal-container', { hidden: !innerVisible })} onClick={(e) => handleDismissModal(e)}>
       <div className="modal-container">
-
         <span className="title">{title}</span>
 
         <div className="body">
-          {
-            confirmText ? <span>{confirmText}</span> : null
-          }
-
+          { bodyText ? <span>{bodyText}</span> : null }
           <input value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
         </div>
 
         <div className="footer">
-          {
-            leftText ? <button className="left" onClick={OnClickLeft}>{leftText}</button> : null
-          }
-          {
-            rightText ? <button className="right" onClick={OnClickRight}>{rightText}</button> : null
-          }
+          { leftOpText ? <button className="left" onClick={handleClickLeftOp}>{leftOpText}</button> : null }
+          { rightOpText ? <button className="right" onClick={handleClickRightOp}>{rightOpText}</button> : null }
         </div>
 
       </div>
@@ -80,11 +84,11 @@ InputModal.propTypes = {
   visible: PropTypes.bool.isRequired,
   type: PropTypes.string,
   title: PropTypes.string.isRequired,
-  confirmText: PropTypes.string,
-  leftText: PropTypes.string,
-  rightText: PropTypes.string,
-  clickLeft: PropTypes.func,
-  clickRight: PropTypes.func,
+  bodyText: PropTypes.string,
+  leftOpText: PropTypes.string,
+  rightOpText: PropTypes.string,
+  onClickLeftOp: PropTypes.func,
+  onClickRightOp: PropTypes.func,
   onDismissModal: PropTypes.func
 };
 
