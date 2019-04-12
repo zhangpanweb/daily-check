@@ -15,7 +15,7 @@ import RecordPreview from '../record-preview';
 const Record = ({ history }) => {
   const defaultDate = new Date();
 
-  const [date, setDate] = useState(defaultDate);
+  const [date, setDate] = useState(moment(defaultDate).format('YYYY-MM-DD')); // 选择的日期，格式为 YYYY-MM-DD
   const [records, setRecords] = useState({});
 
   useEffect(() => {

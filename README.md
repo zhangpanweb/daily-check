@@ -27,3 +27,6 @@ With my personal study, this project will be completed gradually.
 
 ## project to do
 - 统一的错误处理 toast ，以及对请求的统一错误处理
+- 手机调试，样式更改
+- 合并inputModal和confirmModal
+- 由于moment打包过于大，重写或者替换掉moment
