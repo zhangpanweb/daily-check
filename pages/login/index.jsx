@@ -42,8 +42,8 @@ const Login = ({ history }) => {
       });
     }
 
-    if (result.data !== 'ok') {
-      setErrorMessage(result.data);
+    if (result.data.responseStatus !== 'ok') {
+      setErrorMessage(result.data.message);
     } else {
       history.push('/');
     }

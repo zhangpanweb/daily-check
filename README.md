@@ -30,3 +30,6 @@ With my personal study, this project will be completed gradually.
 - 手机调试，样式更改
 - 合并inputModal和confirmModal
 - 由于moment打包过于大，重写或者替换掉moment
+
+## to be fixed
+线上，未登录，不会重定向到login，而是 to login

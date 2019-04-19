@@ -17,6 +17,7 @@ async function auth (req, res, next) {
   }
 
   const token = req.cookies.dailyCheckToken;
+  console.log('token', token);
   if (token) {
     const decoded = jwt.verify(token, 'daily-check');
     if (decoded.id && decoded.name) {

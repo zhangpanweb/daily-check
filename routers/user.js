@@ -11,21 +11,21 @@ router.post('/user/login', async (req, res) => {
   const user = result[0];
 
   if (!user) {
-    res.status(200).send('用户名不存在');
+    res.status(200).json({ message: '用户名不存在' });
     return;
   }
 
   const validate = sha1(`${JSON.stringify({ name, password })}dailyCheck`) === user.password;
 
   if (!validate) {
-    res.status(200).send('密码错误');
+    res.status(200).json({ message: '密码错误' });
     return;
   }
 
   const token = jwt.sign(user, 'daily-check');
   res.cookie('dailyCheckToken', token);
 
-  res.status(200).send('ok');
+  res.status(200).json({ responseStatus: 'ok' });
 });
 
 router.post('/user/register', async (req, res) => {
@@ -34,7 +34,7 @@ router.post('/user/register', async (req, res) => {
   const result = await knex('user').select().where({ name });
   const existedUser = result[0];
   if (existedUser) {
-    res.status(200).send('用户名已被占用');
+    res.status(200).send({ message: '用户名已被占用' });
     return;
   }
 
@@ -46,7 +46,7 @@ router.post('/user/register', async (req, res) => {
   const token = jwt.sign(newUser, 'daily-check');
   res.cookie('dailyCheckToken', token);
 
-  res.status(200).send('ok');
+  res.status(200).send({ responseStatus: 'ok' });
 });
 
 router.get('/user', async (req, res) => {
