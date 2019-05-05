@@ -4,15 +4,11 @@ function convertObjectToCamel (row) {
   const keys = Object.keys(row);
 
   keys.forEach(key => {
-    let finalKey = key;
-    while (finalKey.indexOf('_') !== -1) {
-      const index = finalKey.indexOf('_');
-      const dropSnakeKey = finalKey.replace('_', '');
-      const letter = dropSnakeKey[index];
-      finalKey = dropSnakeKey.replace(letter, letter.toUpperCase());
-    }
+    const covertedKey = key.replace(/(_)(\w)/g, function (match, $1, $2) {
+      return ($2).toUpperCase();
+    });
 
-    result[finalKey] = row[key];
+    result[covertedKey] = row[key];
   });
 
   return result;
