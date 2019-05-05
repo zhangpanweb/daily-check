@@ -6,7 +6,8 @@ module.exports = {
 
 const notCheckUrl = [
   '/api/user/login',
-  '/api/user/register'
+  '/api/user/register',
+  '/login'
 ];
 
 async function auth (req, res, next) {
@@ -27,5 +28,5 @@ async function auth (req, res, next) {
     }
   }
 
-  res.status(401).send({ message: 'to login' });
+  res.redirect('/login');
 }
