@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios';
@@ -9,7 +9,34 @@ import Header from '../../../components/header';
 import Modal from '../../../components/modal';
 
 const Setting = ({ history }) => {
-  const [checkItems, setCheckItems] = useState([]);
+  const checkItemReducer = (state, action) => {
+    switch (action.type) {
+      case 'initial': {
+        const newState = state.concat(action.items);
+        return newState;
+      }
+      case 'add': {
+        const newState = [].concat(state);
+        newState.push(action.item);
+        return newState;
+      }
+      case 'edit': {
+        const newState = [].concat(state);
+        newState[action.payload.index].name = action.payload.name;
+        return newState;
+      }
+      case 'delete': {
+        const newState = [].concat(state);
+        newState.splice(action.index, 1);
+        return newState;
+      }
+      default:
+        return state;
+    }
+  };
+
+  const [checkItems, dispatchCheckItem] = useReducer(checkItemReducer, []);
+
   const [addItemModalVisible, setAddItemModalVisible] = useState(false);
   const [editItemModalVisible, setEditItemMdalVisible] = useState(false);
   const [deleteItemModalVisible, setDeleteItemModalVisible] = useState(false);
@@ -25,6 +52,7 @@ const Setting = ({ history }) => {
     history.go(-1);
   };
 
+  /** 增加打卡项 相关 --- */
   const handleOpenAddItemModal = () => {
     setAddItemModalVisible(true);
   };
@@ -33,14 +61,18 @@ const Setting = ({ history }) => {
     const addedItem = await axios.post(`/api/check_item`, {
       name: value
     });
-    checkItems.push(addedItem.data);
+
+    dispatchCheckItem({ type: 'add', item: addedItem.data });
+
     setAddItemModalVisible(false);
   };
 
   const handleCancelAddItem = () => {
     setAddItemModalVisible(false);
   };
+  /** end ------ */
 
+  /** 编辑打卡项 相关 ----- */
   const handleOpenEditItemModal = (index) => {
     setSelectedItemIndex(index);
 
@@ -50,6 +82,27 @@ const Setting = ({ history }) => {
     setEditItemMdalVisible(true);
   };
 
+  const handleSaveItem = async (e, value) => {
+    const item = checkItems[selectedItemIndex];
+    await axios.put(`/api/check_item/${item.id}`, {
+      name: value
+    });
+
+    dispatchCheckItem({ type: 'edit',
+      payload: {
+        index: selectedItemIndex,
+        name: value
+      } });
+
+    setEditItemMdalVisible(false);
+  };
+
+  const handleCloseEditItem = () => {
+    setEditItemMdalVisible(false);
+  };
+  /** end ---- */
+
+  /** 删除打卡项 相关 ---- */
   const handleOpenDeleteItemMOdal = (index) => {
     setSelectedItemIndex(index);
     setDeleteItemModalVisible(true);
@@ -61,31 +114,19 @@ const Setting = ({ history }) => {
       enabled: 0
     });
 
-    checkItems.splice(selectedItemIndex, 1);
+    dispatchCheckItem({ type: 'delete', index: selectedItemIndex });
+
     setDeleteItemModalVisible(false);
-  };
-
-  const handleSaveItem = async (e, value) => {
-    const item = checkItems[selectedItemIndex];
-    await axios.put(`/api/check_item/${item.id}`, {
-      name: value
-    });
-
-    checkItems[selectedItemIndex].name = value;
-    setEditItemMdalVisible(false);
-  };
-
-  const handleCloseEditItem = () => {
-    setEditItemMdalVisible(false);
   };
 
   const handleCloseDeleteItem = () => {
     setDeleteItemModalVisible(false);
   };
+  /** end ----- */
 
   const _getCheckItems = async () => {
     const res = await axios.get('/api/check_item');
-    setCheckItems(res.data);
+    dispatchCheckItem({ type: 'initial', items: res.data });
   };
 
   const goBackIcon = <i className="iconfont icon-left"></i>;
@@ -108,10 +149,15 @@ const Setting = ({ history }) => {
               return (
                 <li key={item.id}>
                   {item.name}
-
                   <span>
-                    <i className="iconfont icon-edit-square" onClick={() => { handleOpenEditItemModal(index); }}></i>
-                    <i className="iconfont icon-delete" onClick={() => { handleOpenDeleteItemMOdal(index); }}></i>
+                    <i
+                      className="iconfont icon-edit-square"
+                      onClick={() => { handleOpenEditItemModal(index); }}
+                    ></i>
+                    <i
+                      className="iconfont icon-delete"
+                      onClick={() => { handleOpenDeleteItemMOdal(index); }}
+                    ></i>
                   </span>
                 </li>
               );
