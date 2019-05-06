@@ -5,8 +5,8 @@ import './style.less';
 
 import Header from '../../components/header';
 import CheckItem from './check-item';
-import ConfirmModal from '../../components/confirm-modal';
 import NavTab from '../../components/nav-tab';
+import Modal from '../../components/modal';
 
 const Home = () => {
   const clickedItem = useRef(null);
@@ -67,7 +67,7 @@ const Home = () => {
 
       <NavTab />
 
-      <ConfirmModal
+      <Modal
         visible={modalVisible}
         title="打卡确认"
         bodyText="确认已经完成了打卡项吗？完成了就打卡吧"
@@ -76,6 +76,7 @@ const Home = () => {
         onClickLeftOp={handleCancelCheck}
         onClickRightOp={handleDoCheck}
         onDismissModal={handleCancelCheck}
+        type="confirm"
       />
 
     </div>

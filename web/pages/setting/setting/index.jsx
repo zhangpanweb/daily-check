@@ -6,7 +6,7 @@ import axios from 'axios';
 import './style.less';
 
 import Header from '../../../components/header';
-import InputModal from '../../../components/input-modal';
+import Modal from '../../../components/modal';
 
 const Setting = ({ history }) => {
   const [checkItems, setCheckItems] = useState([]);
@@ -103,7 +103,7 @@ const Setting = ({ history }) => {
         </div>
       </div>
 
-      <InputModal
+      <Modal
         visible={addItemModalVisible}
         title="添加打卡项"
         bodyText="输入打卡项名称，添加新的打卡项"
@@ -112,9 +112,10 @@ const Setting = ({ history }) => {
         rightOpText="添加"
         onClickRightOp={handleAddItem}
         onDismissModal={handleCancelAddItem}
+        type="input"
       />
 
-      <InputModal
+      <Modal
         visible={editItemMdalVisible}
         intialInputValue={intialInputValue}
         title="编辑打卡项"
@@ -123,6 +124,7 @@ const Setting = ({ history }) => {
         rightOpText="保存"
         onClickRightOp={handleSaveItem}
         onDismissModal={handleCloseEditItem}
+        type="input"
       />
 
     </div>

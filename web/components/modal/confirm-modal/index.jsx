@@ -1,5 +1,4 @@
-import React, { useRef } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import PropTypes from 'prop-types';
 import cname from 'classnames';
 
@@ -17,8 +16,6 @@ const ConfirmModal = ({
   onClickRightOp,
   onDismissModal
 }) => {
-  const hasShow = useRef(false);
-
   function handleClickLeftOp (e) {
     onClickLeftOp(e);
   }
@@ -33,7 +30,7 @@ const ConfirmModal = ({
     }
   };
 
-  const Modal = (
+  return (
     <div className={cname('confirm-modal-container', { hidden: !visible })} onClick={handleDismissModal}>
       <div className="modal-container">
         <span className="title">{title}</span>
@@ -48,23 +45,6 @@ const ConfirmModal = ({
       </div>
     </div>
   );
-
-  let portal = null;
-  if (visible || hasShow.current) {
-    if (!hasShow.current) {
-      hasShow.current = true;
-    }
-    portal = (
-      ReactDOM.createPortal(
-        Modal,
-        document.body
-      )
-    );
-  } else if (!visible && !hasShow.current) {
-    portal = null;
-  }
-
-  return portal;
 };
 
 ConfirmModal.propTypes = {
