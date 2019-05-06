@@ -11,7 +11,8 @@ import Modal from '../../../components/modal';
 const Setting = ({ history }) => {
   const [checkItems, setCheckItems] = useState([]);
   const [addItemModalVisible, setAddItemModalVisible] = useState(false);
-  const [editItemMdalVisible, seteditItemMdalVisible] = useState(false);
+  const [editItemModalVisible, setEditItemMdalVisible] = useState(false);
+  const [deleteItemModalVisible, setDeleteItemModalVisible] = useState(false);
 
   const [intialInputValue, setIntialInputValue] = useState('');
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
@@ -46,7 +47,12 @@ const Setting = ({ history }) => {
     const item = checkItems[index];
     setIntialInputValue(item.name);
 
-    seteditItemMdalVisible(true);
+    setEditItemMdalVisible(true);
+  };
+
+  const handleOpenDeleteItemMOdal = (index) => {
+    setSelectedItemIndex(index);
+    setDeleteItemModalVisible(true);
   };
 
   const handleDeleteItem = async () => {
@@ -56,7 +62,7 @@ const Setting = ({ history }) => {
     });
 
     checkItems.splice(selectedItemIndex, 1);
-    seteditItemMdalVisible(false);
+    setDeleteItemModalVisible(false);
   };
 
   const handleSaveItem = async (e, value) => {
@@ -66,11 +72,15 @@ const Setting = ({ history }) => {
     });
 
     checkItems[selectedItemIndex].name = value;
-    seteditItemMdalVisible(false);
+    setEditItemMdalVisible(false);
   };
 
   const handleCloseEditItem = () => {
-    seteditItemMdalVisible(false);
+    setEditItemMdalVisible(false);
+  };
+
+  const handleCloseDeleteItem = () => {
+    setDeleteItemModalVisible(false);
   };
 
   const _getCheckItems = async () => {
@@ -96,7 +106,14 @@ const Setting = ({ history }) => {
           <ul>
             {checkItems.map((item, index) => {
               return (
-                <li key={item.id} onClick={() => { handleOpenEditItemModal(index); }}>{item.name}</li>
+                <li key={item.id}>
+                  {item.name}
+
+                  <span>
+                    <i className="iconfont icon-edit-square" onClick={() => { handleOpenEditItemModal(index); }}></i>
+                    <i className="iconfont icon-delete" onClick={() => { handleOpenDeleteItemMOdal(index); }}></i>
+                  </span>
+                </li>
               );
             })}
           </ul>
@@ -116,15 +133,27 @@ const Setting = ({ history }) => {
       />
 
       <Modal
-        visible={editItemMdalVisible}
+        visible={editItemModalVisible}
         intialInputValue={intialInputValue}
         title="编辑打卡项"
-        leftOpText="删除"
-        onClickLeftOp={handleDeleteItem}
+        leftOpText="取消"
+        onClickLeftOp={handleCloseEditItem}
         rightOpText="保存"
         onClickRightOp={handleSaveItem}
         onDismissModal={handleCloseEditItem}
         type="input"
+      />
+
+      <Modal
+        visible={deleteItemModalVisible}
+        title="删除打卡项"
+        bodyText="确认需要删除该打卡项吗？"
+        leftOpText="取消"
+        onClickLeftOp={handleCloseDeleteItem}
+        rightOpText="确认"
+        onClickRightOp={handleDeleteItem}
+        onDismissModal={handleCloseDeleteItem}
+        type="confirm"
       />
 
     </div>

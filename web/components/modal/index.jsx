@@ -13,6 +13,7 @@ const Modal = ({ visible, type, ...otherProps }) => {
   const hasShow = useRef(false);
 
   let portal = null;
+
   if (visible || hasShow.current) {
     if (!hasShow.current) {
       hasShow.current = true;
@@ -25,8 +26,6 @@ const Modal = ({ visible, type, ...otherProps }) => {
         document.body
       )
     );
-  } else if (!visible && !hasShow.current) {
-    portal = null;
   }
 
   return portal;

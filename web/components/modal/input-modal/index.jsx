@@ -18,11 +18,9 @@ const InputModal = ({
   onDismissModal
 }) => {
   const [inputValue, setInputValue] = useState('');
-  const [innerVisible, setInnerVisible] = useState(false);
 
   useLayoutEffect(() => {
     setInputValue(intialInputValue);
-    setInnerVisible(visible);
   }, [intialInputValue, visible]);
 
   function handleClickLeftOp (e) {
@@ -42,7 +40,7 @@ const InputModal = ({
   };
 
   return (
-    <div className={cname('input-modal-container', { hidden: !innerVisible })} onClick={(e) => handleDismissModal(e)}>
+    <div className={cname('input-modal-container', { hidden: !visible })} onClick={(e) => handleDismissModal(e)}>
       <div className="modal-container">
         <span className="title">{title}</span>
 
