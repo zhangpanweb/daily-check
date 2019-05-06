@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './style.less';
@@ -10,6 +10,8 @@ import Login from '../login';
 import axios from 'axios';
 
 const App = ({ history }) => {
+  const [checkIndicator, setCheckIndicator] = useState(false);
+
   useEffect(() => {
     _checkToken();
   }, []);
@@ -20,7 +22,12 @@ const App = ({ history }) => {
     } catch (e) {
       history.push('/login');
     }
+    setCheckIndicator(true);
   };
+
+  if (!checkIndicator) {
+    return null;
+  }
 
   return (
     <div className="app-container">

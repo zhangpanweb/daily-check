@@ -6,13 +6,12 @@ module.exports = {
 
 const notCheckUrl = [
   '/api/user/login',
-  '/api/user/register',
-  '/login'
+  '/api/user/register'
 ];
 
 async function auth (req, res, next) {
   const path = req.path;
-  if (notCheckUrl.indexOf(path) !== -1) {
+  if (notCheckUrl.indexOf(path) !== -1 || !path.match(/^(\/api)/)) {
     await next();
     return;
   }
@@ -28,5 +27,5 @@ async function auth (req, res, next) {
     }
   }
 
-  res.redirect('/login');
+  res.status(403).end('to login');
 }
