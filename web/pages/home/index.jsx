@@ -36,7 +36,10 @@ const Home = () => {
       checkItemId: todayCheckItems[index].id
     });
 
-    todayCheckItems[index].isCompleted = true;
+    const newTodayCheckItems = [].concat(todayCheckItems);
+    newTodayCheckItems[index].isCompleted = true;
+    setTodayCheckItems(newTodayCheckItems);
+
     setModalVisible(false);
   };
 

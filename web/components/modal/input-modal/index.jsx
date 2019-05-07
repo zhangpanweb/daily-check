@@ -61,12 +61,14 @@ const InputModal = ({
 
 InputModal.propTypes = {
   visible: PropTypes.bool.isRequired,
-  type: PropTypes.string,
+
   title: PropTypes.string.isRequired,
   intialInputValue: PropTypes.string,
   bodyText: PropTypes.string,
+
   leftOpText: PropTypes.string,
   rightOpText: PropTypes.string,
+
   onClickLeftOp: PropTypes.func,
   onClickRightOp: PropTypes.func,
   onDismissModal: PropTypes.func

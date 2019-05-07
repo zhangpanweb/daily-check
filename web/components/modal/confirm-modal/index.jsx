@@ -49,10 +49,13 @@ const ConfirmModal = ({
 
 ConfirmModal.propTypes = {
   visible: PropTypes.bool.isRequired,
+
   title: PropTypes.string.isRequired,
   bodyText: PropTypes.string,
+
   leftOpText: PropTypes.string,
   rightOpText: PropTypes.string,
+
   onClickLeftOp: PropTypes.func,
   onClickRightOp: PropTypes.func,
   onDismissModal: PropTypes.func
