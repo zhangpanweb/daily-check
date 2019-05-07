@@ -22,6 +22,8 @@ function covertDateToDay (date) {
 }
 
 const Calendar = ({ value = new Date(), onChangeDate }) => {
+  const nowDate = parseInt(moment().format('DD'), 10);
+
   const [selectedDate, setSelectedDate] = useState(parseInt(moment(value).format('DD'), 10)); // 被选中的这个月的第几天，类型为数字
   const [selectedMonth, setSelectedMonth] = useState(moment(value).format('YYYY-MM-DD')); // 被选中的月份，格式为 YYYY-MM-DD
   const [monthDates, setMonthDates] = useState([]); // 日历上需要展示的这个月的天数组成的数组
@@ -37,15 +39,23 @@ const Calendar = ({ value = new Date(), onChangeDate }) => {
   };
 
   const handleSelectNextMonth = () => {
+    if (moment().diff(selectedMonth, 'M') === 0) {
+      return;
+    }
+
     const nextMonth = moment(selectedMonth).add(1, 'months').format('YYYY-MM-DD');
     setSelectedMonth(nextMonth);
   };
 
   const handleSelectedDate = (date) => {
-    if (date) {
-      setSelectedDate(date);
+    if (!date.clickable) {
+      return;
+    }
 
-      const fomatedDate = `${moment(selectedMonth).format('YYYY-MM').toString()}-${date}`;
+    if (date) {
+      setSelectedDate(date.d);
+
+      const fomatedDate = `${moment(selectedMonth).format('YYYY-MM').toString()}-${date.d}`;
       onChangeDate(moment(fomatedDate).format('YYYY-MM-DD').toString());
     }
   };
@@ -61,15 +71,23 @@ const Calendar = ({ value = new Date(), onChangeDate }) => {
 
     /** [1,2,3,4,...,30] */
     for (let i = 1; i <= lastDateNumberOfMonth; i++) {
-      dates.push(i);
+      if (moment().diff(selectedMonth, 'M') > 0) {
+        dates.push({ d: i, clickable: true });
+      } else {
+        if (nowDate < i) {
+          dates.push({ d: i, clickable: false });
+        } else {
+          dates.push({ d: i, clickable: true });
+        }
+      }
     }
 
     /** 补充前一个月和后一个月的空白部分 */
     for (let i = firstDay; i > 1; i--) {
-      dates.unshift(undefined);
+      dates.unshift({});
     }
     for (let i = lastDay; i < 7; i++) {
-      dates.push(undefined);
+      dates.push({});
     }
 
     setMonthDates(dates);
@@ -78,9 +96,12 @@ const Calendar = ({ value = new Date(), onChangeDate }) => {
   return (
     <div className="calendar-container">
       <div className="title">
-        <img src={require('../../static/images/calendar-left.png')} onClick={handleSelectPreMonth}/>
+        <i className="iconfont icon-left" onClick={handleSelectPreMonth}></i>
         <span>{moment(selectedMonth).format('YYYY-MM')}</span>
-        <img src={require('../../static/images/calendar-right.png')} onClick={handleSelectNextMonth}/>
+        <i
+          className={cname('iconfont', 'icon-right', { 'unclickable': moment().diff(selectedMonth, 'M') === 0 })}
+          onClick={handleSelectNextMonth}
+        ></i>
       </div>
 
       <div className="day">
@@ -95,7 +116,7 @@ const Calendar = ({ value = new Date(), onChangeDate }) => {
 
       <div className="date">
         {monthDates.map((date, index) => (
-          <span className={cname('cell', { 'selected': date === selectedDate })} key={index} onClick={() => { handleSelectedDate(date); }}>{date}</span>
+          <span className={cname('cell', { 'selected': date.d === selectedDate, 'unclickable': date.d && !date.clickable })} key={index} onClick={() => { handleSelectedDate(date); }}>{date.d}</span>
         ))}
       </div>
 
